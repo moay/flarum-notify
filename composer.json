@@ -1,0 +1,12 @@
+{
+    "name": "root/flarum-notify",
+    "description": "Get notified about forum activity via Slack, Hipchat or Gitter.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "moay",
+            "email": "mv@moay.de"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": {
+            "moay\\FlarumNotify\\": "src/"
+        }
+    },
+    "require": {
+        "cleentfaar/slack": "^0.17",
+        "gorkalaucirica/hipchat-v2-api-client": "^1.4"
+    }
+}

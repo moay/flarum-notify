@@ -1,0 +1,21 @@
+{
+    "name": "notify",
+    "title": "Notify",
+    "description": "Get notified about forum activities via Slack, Hipchat or Gitter",
+    "keywords": ["Slack", "Hipchat", "Gitter"],
+    "version": "0.1.0",
+    "author": {
+        "name": "moay",
+        "email": "mv@moay.de",
+        "homepage": ""
+    },
+    "license": "MIT",
+    "require": {
+        "flarum": ">0.1.0-beta.2"
+    },
+    "icon": {
+        "name": "bell",
+        "backgroundColor": "#640049",
+        "color": "#fff"
+    }
+}
