@@ -13,5 +13,8 @@ class Extension extends BaseExtension
         $events->subscribe('moay\FlarumNotify\Listeners\PostWasDeletedListener');
         $events->subscribe('moay\FlarumNotify\Listeners\DiscussionWasStartedListener');
         $events->subscribe('moay\FlarumNotify\Listeners\DiscussionWasDeletedListener');
+
+        // Add API routes
+        $events->subscribe('moay\FlarumNotify\ApiRoutes');
     }
 }

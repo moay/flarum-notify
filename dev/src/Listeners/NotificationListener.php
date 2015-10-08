@@ -3,6 +3,7 @@
 use Flarum\Core\Settings\SettingsRepository;
 use moay\FlarumNotify\Connectors\SlackConnector;
 use moay\FlarumNotify\Connectors\HipChatConnector;
+use moay\FlarumNotify\Connectors\GitterConnector;
 
 class NotificationListener
 {
@@ -27,6 +28,10 @@ class NotificationListener
         // Check for HipChat
         if($this->settings->get('notify.services.hipchat') && $this->settings->get('notify.hipchat.token') && $this->settings->get('notify.hipchat.room')){
             $connectors[] = new HipChatConnector($this->settings);
+        }
+        // Check for Gitter
+        if($this->settings->get('notify.services.gitter') && $this->settings->get('notify.gitter.webhook')){
+            $connectors[] = new GitterConnector($this->settings);
         }
         return $connectors;
     }

@@ -13,7 +13,7 @@ class PostWasDeletedMessage extends Message
 		$this->title = 'Post deleted';
 		$this->message = '@'.$this->post->user->username.'\'s post was deleted from discussion #' . $this->post->discussion->id . ' ('.$this->post->discussion->title.')';
 		$this->short = 'Post deleted';
-		$this->color = 'FA7516';
+		$this->color = 'red';
 
 		$this->addLinkToParse('@'.$this->post->user->username, app('flarum.config')['url']."/u/{$this->post->user->id}");
 		$this->addLinkToParse('discussion #'.$this->post->discussion->id, app('flarum.config')['url']."/d/{$this->post->discussion->id}");

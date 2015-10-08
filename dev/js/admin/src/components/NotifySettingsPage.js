@@ -6,6 +6,8 @@ import Alert from 'flarum/components/Alert';
 
 import SlackSettingsModal from 'notify/components/SlackSettingsModal';
 import HipChatSettingsModal from 'notify/components/HipChatSettingsModal';
+import GitterSettingsModal from 'notify/components/GitterSettingsModal';
+import TestConnectorsModal from 'notify/components/TestConnectorsModal';
 
 export default class NotifySettingsPage extends Component {
   constructor(...args) {
@@ -13,6 +15,7 @@ export default class NotifySettingsPage extends Component {
     this.services = {};
     this.services.slack = m.prop(app.config['notify.services.slack'] === '1');
     this.services.hipchat = m.prop(app.config['notify.services.hipchat'] === '1');
+    this.services.gitter = m.prop(app.config['notify.services.gitter'] === '1');
 
     this.events = {};
     this.events.new_post = m.prop(app.config['notify.events.new_post'] === '1');
@@ -36,16 +39,23 @@ export default class NotifySettingsPage extends Component {
                 <tr>
                   <td>
                     {Switch.component({
-                      state: this.services.slack(),
-                      children: 'Slack',
-                      onchange: this.services.slack
+                      state: this.services.gitter(),
+                      children: 'Gitter',
+                      onchange: this.services.gitter
                     })}
                   </td>
                   <td>
                     {Button.component({
                       className: 'Button NotifySettingsButton rounded',
                       icon: 'cog',
-                      onclick: () => app.modal.show(new SlackSettingsModal())
+                      type: 'button',
+                      onclick: () => app.modal.show(new GitterSettingsModal())
+                    })}
+                    {Button.component({
+                      className: 'Button NotifySettingsButton rounded texty',
+                      children: 'Test',
+                      type: 'button',
+                      onclick: () => app.modal.show(new TestConnectorsModal({'connector':'gitter'}))
                     })}
                   </td>
                 </tr>
@@ -61,7 +71,37 @@ export default class NotifySettingsPage extends Component {
                     {Button.component({
                       className: 'Button NotifySettingsButton rounded',
                       icon: 'cog',
+                      type: 'button',
                       onclick: () => app.modal.show(new HipChatSettingsModal())
+                    })}
+                    {Button.component({
+                      className: 'Button NotifySettingsButton rounded texty',
+                      children: 'Test',
+                      type: 'button',
+                      onclick: () => app.modal.show(new TestConnectorsModal({'connector':'hipchat'}))
+                    })}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {Switch.component({
+                      state: this.services.slack(),
+                      children: 'Slack',
+                      onchange: this.services.slack
+                    })}
+                  </td>
+                  <td>
+                    {Button.component({
+                      className: 'Button NotifySettingsButton rounded',
+                      icon: 'cog',
+                      type: 'button',
+                      onclick: () => app.modal.show(new SlackSettingsModal())
+                    })}
+                    {Button.component({
+                      className: 'Button NotifySettingsButton rounded texty',
+                      children: 'Test',
+                      type: 'button',
+                      onclick: () => app.modal.show(new TestConnectorsModal({'connector':'slack'}))
                     })}
                   </td>
                 </tr>
@@ -80,7 +120,7 @@ export default class NotifySettingsPage extends Component {
                   <td>
                     {Switch.component({
                       state: this.events.new_discussion(),
-                      children: 'a new discusion was started',
+                      children: 'a new discussion was started',
                       onchange: this.events.new_discussion
                     })}
                   </td>
@@ -145,7 +185,8 @@ export default class NotifySettingsPage extends Component {
 
     saveConfig({
       'notify.services.slack' : this.services.slack(),
-      'notify.services.hipchat' : this.services.slack(),
+      'notify.services.hipchat' : this.services.hipchat(),
+      'notify.services.gitter' : this.services.gitter(),
       'notify.events.new_post' : this.events.new_post(),
       'notify.events.new_discussion' : this.events.new_discussion(),
       'notify.events.post_hidden' : this.events.post_hidden(),

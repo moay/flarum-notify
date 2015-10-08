@@ -35,7 +35,8 @@ class PostWasDeletedListener extends NotificationListener
      */
     public function shouldTrigger(PostWasDeleted $event){
         if($this->settings->get('notify.events.post_deleted') === '1'
-            && $event->post->discussion->posts()->count() == 1){
+            && $event->post->discussion 
+            && $event->post->discussion->posts()->count() != 0){
             return true;
         }
         return false;

@@ -1,6 +1,7 @@
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
 import saveConfig from 'flarum/utils/saveConfig';
+import Alert from 'flarum/components/Alert';
 
 export default class SlackSettingsModal extends Modal {
   constructor(...args) {
@@ -32,6 +33,8 @@ export default class SlackSettingsModal extends Modal {
             <input className="FormControl" value={this.channel()} oninput={m.withAttr('value', this.channel)}/>
           </div>
           
+          <p>In order to obtain the token, visit <a href="https://api.slack.com/web" target="_new">api.slack.com/web</a>.</p>
+
           <hr/>
 
           <div className="Form-group">
@@ -46,11 +49,11 @@ export default class SlackSettingsModal extends Modal {
       </div>
     );
   }
-
   onsubmit(e) {
     e.preventDefault();
 
     this.loading = true;
+    app.alerts.dismiss(this.testResultAlert);
 
     saveConfig({
       'notify.slack.token': this.token(),

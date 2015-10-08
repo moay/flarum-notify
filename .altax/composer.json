@@ -1,5 +1,6 @@
 {
     "require": {
-
+        "alchemy/zippy": "^0.2.1",
+        "windwalker/filesystem": "^2.1"
     }
 }

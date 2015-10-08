@@ -2,6 +2,7 @@
 
 use CL\Slack\Transport\ApiClient;
 use CL\Slack\Payload\ChatPostMessagePayload;
+use CL\Slack\Payload\AuthTestPayload;
 use CL\Slack\Model\Attachment;
 use CL\Slack\Model\AttachmentField;
 use moay\FlarumNotify\Interfaces\ConnectorInterface;
@@ -23,6 +24,12 @@ class SlackConnector extends Connector implements ConnectorInterface
         $this->attachment = new Attachment;
     }
 
+    public function works(){
+        $this->payload = new AuthTestPayload;
+        $test = $this->execute();
+        return $test->isOk();
+    }
+
     public function send($message){
         $this->prepareNotificationPayload();
         $this->setMessage($message->getMessage(), $message->getShort());
@@ -31,7 +38,7 @@ class SlackConnector extends Connector implements ConnectorInterface
             $this->setAuthor($message->getAuthor()->username, app('flarum.config')['url']."/u/{$message->getAuthor()->id}", $message->getAuthor()->avatar_url);
             if($message->getAuthor()->isAdmin())
             {
-                $this->setColor('609EB3');
+                $this->setColor('special');
             }
         }
         if($message->getColor() !== null){
@@ -62,7 +69,23 @@ class SlackConnector extends Connector implements ConnectorInterface
     }
 
     protected function setColor($color){
-        return $this->attachment->setColor($color);
+        $finalcolor = '777777';
+
+        $colors = [
+            'red' => 'C20000',
+            'orange' => 'F2C200',
+            'green' => '713191',
+            'gray' => '777777',
+            'default' => '777777',
+            'blue' => '609EB3',
+            'special' => '609EB3'
+        ];
+
+        if(isset($colors[$color])){
+            $finalcolor = $colors[$color];
+        }
+
+        return $this->attachment->setColor($finalcolor);
     }
 
     protected function setAuthor($name, $link = false, $icon = null){

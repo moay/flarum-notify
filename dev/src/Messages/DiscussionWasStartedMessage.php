@@ -13,7 +13,7 @@ class DiscussionWasStartedMessage extends Message
 		$this->author = $this->discussion->startUser;
 		$this->message = 'started discussion #' . $this->discussion->id . ' ('.$this->discussion->title.')';
 		$this->short = 'New post';
-		$this->color = '713191';
+		$this->color = 'green';
 
 		$this->addLinkToParse('@'.$this->author->username, app('flarum.config')['url']."/u/{$this->author->id}");
 		$this->addLinkToParse('discussion #'.$this->discussion->id, app('flarum.config')['url']."/d/{$this->discussion->id}");

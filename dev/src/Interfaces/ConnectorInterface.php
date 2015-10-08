@@ -5,4 +5,6 @@ interface ConnectorInterface
     public function setup();
     
     public function send($message);
+
+    // public function works();
 }
