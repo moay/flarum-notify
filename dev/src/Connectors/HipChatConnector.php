@@ -10,6 +10,10 @@ use GorkaLaucirica\HipchatAPIv2Client\Exception\RequestException;
 
 class HipChatConnector extends Connector implements ConnectorInterface
 {
+    /**
+     * Setup method which is called on construction
+     * @return void
+     */
     public function setup(){
         $auth = new OAuth2($this->settings->get('notify.hipchat.token'));
     	$client = new Client($auth);
@@ -17,6 +21,11 @@ class HipChatConnector extends Connector implements ConnectorInterface
         $this->message = new Message();
     }
 
+    /**
+     * Method which actually sends a message to Gitter
+     * @param  Message $message
+     * @return void
+     */
     public function send($message){
         $color = 'gray';
         if($message->getColor() !== null){
@@ -38,6 +47,10 @@ class HipChatConnector extends Connector implements ConnectorInterface
         $this->api->sendRoomNotification($this->settings->get('notify.hipchat.room'), $this->message);
     }
 
+    /**
+     * Checks wether the Connector works with the current settings
+     * @return boolean
+     */
     public function works(){
         $this->message->setMessage('Flarum is able to contact this HipChat room. Great!');
         $this->message->setColor('green');
@@ -49,6 +62,11 @@ class HipChatConnector extends Connector implements ConnectorInterface
         return true;
     }
 
+    /**
+     * Parses the message's color to something HipChat understands
+     * @param  string $color
+     * @return string         string that is usable for HipChat
+     */
     protected function parseColor($color){
         $retcolor = 'gray';
 
@@ -67,6 +85,12 @@ class HipChatConnector extends Connector implements ConnectorInterface
         return $retcolor;
     }
 
+    /**
+     * Parses all links in the message body to make them clickable
+     * @param  string $content      
+     * @param  array $linksToParse  string=>link array
+     * @return string               the parsed $content
+     */
     protected function parseLinksInMessage($content, $linksToParse){
         foreach($linksToParse as $search=>$link){
             $content = str_replace($search, '<a href="'.$link.'">'.$search.'</a>', $content);

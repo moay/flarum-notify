@@ -39,8 +39,9 @@ Task::register('build', function($task){
 
 	$zippy = Zippy::load();
 
-	$zippy->create('flarum-notify.zip', $distfolder . '/notify');
-
+	$archive = $zippy->create('flarum-notify.zip', array(
+	    'notify' => $distfolder . '/notify'
+	));
 
 	$task->writeln('Deleting copied folder');
 

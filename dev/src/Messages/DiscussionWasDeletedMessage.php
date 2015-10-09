@@ -9,6 +9,10 @@ class DiscussionWasDeletedMessage extends Message
 		$this->prepareMessage();
 	}
 
+	/**
+	 * Prepares the message which should be sent to the Connectors
+	 * @return void
+	 */
 	function prepareMessage(){
 		$this->title = 'Discussion deleted';
 		$this->message = 'Discussion #' . $this->discussion->id . ' ('.$this->discussion->title.') has been deleted';

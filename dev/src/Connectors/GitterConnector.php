@@ -7,11 +7,19 @@ class GitterConnector extends Connector implements ConnectorInterface
 {
     private $webhook = 'https://api.gitter.im/v1/';
 
+    /**
+     * Setup method which is called on construction
+     * @return void
+     */
     public function setup(){
     	$this->client = new GuzzleClient();
         $this->webhook = $this->settings->get('notify.gitter.webhook');
     }
 
+    /**
+     * Checks wether the Connector works with the current settings
+     * @return boolean
+     */
     public function works(){
         $data = [
             'form_params' => [
@@ -23,6 +31,11 @@ class GitterConnector extends Connector implements ConnectorInterface
         return $response->getBody()->getContents() == 'OK';
     }
 
+    /**
+     * Method which actually sends a message to Gitter
+     * @param  Message $message
+     * @return GuzzleResponse
+     */
     public function send($message){
         $level = 'normal';
         if($message->getColor() !== null){
@@ -53,18 +66,35 @@ class GitterConnector extends Connector implements ConnectorInterface
         return $this->postApi($data);
     }
 
+    /**
+     * Executes a GET query via requestApi
+     */
     protected function getApi($data = []){
         return $this->requestApi('GET', $data);
     }
 
+    /**
+     * Executes a POST query via requestApi
+     */
     protected function postApi($data = []){
         return $this->requestApi('POST', $data);
     }
 
+    /**
+     * Executes a Guzzle request
+     * @param  string $method
+     * @param  array  $data   
+     * @return GuzzleResponse
+     */
     private function requestApi($method = 'GET', $data = []){
         return $this->client->request($method, $this->webhook, $data);
     }
 
+    /**
+     * Parses the message's color to something Gitter understands
+     * @param  string $color
+     * @return string        'error' or 'normal'
+     */
     protected function parseColor($color){
         if($color == 'red' || $color == 'orange'){
             return 'error';
@@ -72,6 +102,12 @@ class GitterConnector extends Connector implements ConnectorInterface
         return 'normal';
     }
 
+    /**
+     * Parses all links in the message body to make them clickable
+     * @param  string $content      
+     * @param  array $linksToParse  string=>link array
+     * @return string               the parsed $content
+     */
     protected function parseLinksInMessage($content, $linksToParse){
         foreach($linksToParse as $search=>$link){
             $content = str_replace($search, '['.$search.']('.$link.')', $content);

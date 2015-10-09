@@ -30,7 +30,7 @@ class PostWasDeletedListener extends NotificationListener
 
     /**
      * Checks wether or not this listener should send a notification for this event
-     * @param  DiscussionWasStarted $event
+     * @param  PostWasDeleted $event
      * @return boolean
      */
     public function shouldTrigger(PostWasDeleted $event){

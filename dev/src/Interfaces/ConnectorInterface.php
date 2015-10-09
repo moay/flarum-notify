@@ -6,5 +6,5 @@ interface ConnectorInterface
     
     public function send($message);
 
-    // public function works();
+    public function works();
 }

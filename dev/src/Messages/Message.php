@@ -9,6 +9,11 @@ class Message
 	protected $linksToParse = [];
 	protected $color = null;
 
+	/**
+	 * Adds links which can be parsed by the connectors to convert strings into links
+	 * @param string $string  The string to convert
+	 * @param string $url     The url it should lead to
+	 */
 	protected function addLinkToParse($string, $url){
 		$this->linksToParse[$string] = $url;
 	}

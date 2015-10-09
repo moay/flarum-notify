@@ -9,6 +9,11 @@ class DiscussionWasStartedMessage extends Message
 		$this->prepareMessage();
 	}
 
+
+	/**
+	 * Prepares the message which should be sent to the Connectors
+	 * @return void
+	 */
 	function prepareMessage(){
 		$this->author = $this->discussion->startUser;
 		$this->message = 'started discussion #' . $this->discussion->id . ' ('.$this->discussion->title.')';

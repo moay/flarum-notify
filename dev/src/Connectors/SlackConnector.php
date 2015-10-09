@@ -11,10 +11,18 @@ class SlackConnector extends Connector implements ConnectorInterface
 {
     private $iconLocation = '/extensions/slack/img/flarum_slack_icon_48.png';
 
+    /**
+     * Setup method which is called on construction
+     * @return void
+     */
     public function setup(){
     	$this->client = new ApiClient($this->settings->get('notify.slack.token'));
     }
 
+    /**
+     * Prepares a basic message payload to send to Slack
+     * @return void
+     */
     public function prepareNotificationPayload(){
         $this->payload = new ChatPostMessagePayload();
         $this->payload->setChannel($this->settings->get('notify.slack.channel'));
@@ -24,12 +32,25 @@ class SlackConnector extends Connector implements ConnectorInterface
         $this->attachment = new Attachment;
     }
 
+    /**
+     * Checks wether the Connector works with the current settings.
+     * 
+     * TODO: Should actually be improved to really test the channel
+     * 
+     * @return boolean
+     */
     public function works(){
         $this->payload = new AuthTestPayload;
         $test = $this->execute();
         return $test->isOk();
     }
 
+
+    /**
+     * Method which actually sends a message to Slack
+     * @param  Message $message
+     * @return void
+     */
     public function send($message){
         $this->prepareNotificationPayload();
         $this->setMessage($message->getMessage(), $message->getShort());
@@ -48,8 +69,13 @@ class SlackConnector extends Connector implements ConnectorInterface
             $this->setTitle($message->getTitle());
         }
         $this->sendMessage();
-    }
+    }  
 
+    /**
+     * Sets the message on the Slack attachment. Also sets the fallback which is going to be displayed in system notifications.
+     * @param string  $message  
+     * @param string  $fallback 
+     */
     protected function setMessage($message, $fallback = false){
         if($fallback !== false){
             $this->setFallback($fallback);
@@ -68,6 +94,11 @@ class SlackConnector extends Connector implements ConnectorInterface
         $this->attachment->setFallback($fallback);
     }
 
+    /**
+     * Parses the message's color to a HEX value and makes the payload use it.
+     * @param string $color
+     * @return void
+     */
     protected function setColor($color){
         $finalcolor = '777777';
 
@@ -85,9 +116,15 @@ class SlackConnector extends Connector implements ConnectorInterface
             $finalcolor = $colors[$color];
         }
 
-        return $this->attachment->setColor($finalcolor);
+        $this->attachment->setColor($finalcolor);
     }
 
+    /**
+     * Sets the message author
+     * @param string  $name  The author name
+     * @param string  $link  A link for a click on the authors name
+     * @param string  $icon  Url of the author's avatar
+     */
     protected function setAuthor($name, $link = false, $icon = null){
         $this->attachment->setAuthorName($name);
         if($link !== false){
@@ -98,16 +135,31 @@ class SlackConnector extends Connector implements ConnectorInterface
         }
     }
 
+    /**
+     * Prepares the message attachment and sends it to Slack
+     * @return @see execute()
+     */
     protected function sendMessage(){
         $this->payload->addAttachment($this->attachment);
 
         return $this->execute();
     }
 
+    /**
+     * Dispatches the message and sends it to Slack
+     * @return mixed  sending response
+     */
     private function execute(){
     	return $this->client->send($this->payload);
     }
 
+
+    /**
+     * Parses all links in the message body to make them clickable. Sets the message body afterwards
+     * @param  string $content      
+     * @param  array $linksToParse  string=>link array
+     * @return string               the parsed $content
+     */
     protected function parseLinksInMessage($linksToParse){
         $message = $this->attachment->getText();
         foreach($linksToParse as $search=>$link){

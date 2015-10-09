@@ -23,6 +23,11 @@ class ConnectorTest{
         $this->bus = $bus;
 	}
 
+	/**
+	 * Handles the incoming api request and serves it with a Connector test if possible
+	 * @param  $request
+	 * @return JsonResponse
+	 */
 	public function handle($request){
 		switch($request->input['connector']){
 			case 'slack':

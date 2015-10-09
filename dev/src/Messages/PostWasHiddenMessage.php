@@ -9,6 +9,11 @@ class PostWasHiddenMessage extends Message
 		$this->prepareMessage();
 	}
 
+
+	/**
+	 * Prepares the message which should be sent to the Connectors
+	 * @return void
+	 */
 	function prepareMessage(){
 		$this->title = 'Post hidden';
 		$this->message = '@'.$this->post->user->username.'\'s post was hidden from discussion #' . $this->post->discussion->id . ' ('.$this->post->discussion->title.')';

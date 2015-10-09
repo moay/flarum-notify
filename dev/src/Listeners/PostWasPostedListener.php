@@ -30,7 +30,7 @@ class PostWasPostedListener extends NotificationListener
 
     /**
      * Checks wether or not this listener should send a notification for this event
-     * @param  DiscussionWasStarted $event
+     * @param  PostWasPosted $event
      * @return boolean
      */
     public function shouldTrigger(PostWasPosted $event){

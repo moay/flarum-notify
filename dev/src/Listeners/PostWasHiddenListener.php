@@ -30,7 +30,7 @@ class PostWasHiddenListener extends NotificationListener
 
     /**
      * Checks wether or not this listener should send a notification for this event
-     * @param  DiscussionWasStarted $event
+     * @param  PostWasHidden $event
      * @return boolean
      */
     public function shouldTrigger(PostWasHidden $event){

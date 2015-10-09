@@ -9,6 +9,11 @@ class PostWasDeletedMessage extends Message
 		$this->prepareMessage();
 	}
 
+
+	/**
+	 * Prepares the message which should be sent to the Connectors
+	 * @return void
+	 */
 	function prepareMessage(){
 		$this->title = 'Post deleted';
 		$this->message = '@'.$this->post->user->username.'\'s post was deleted from discussion #' . $this->post->discussion->id . ' ('.$this->post->discussion->title.')';

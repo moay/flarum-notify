@@ -6,7 +6,7 @@
     },
     "require": {
         "cleentfaar/slack": "^0.17",
-        "gorkalaucirica/hipchat-v2-api-client": "^1.4",
+        "gorkalaucirica/hipchat-v2-api-client": "^1",
         "guzzlehttp/guzzle": "^6.1"
     }
 }

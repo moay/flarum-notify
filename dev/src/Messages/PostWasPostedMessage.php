@@ -9,6 +9,11 @@ class PostWasPostedMessage extends Message
 		$this->prepareMessage();
 	}
 
+
+	/**
+	 * Prepares the message which should be sent to the Connectors
+	 * @return void
+	 */
 	function prepareMessage(){
 		$this->author = $this->post->user;
 		$this->message = 'added a new post to discussion #' . $this->post->discussion->id . ' ('.$this->post->discussion->title.')';
