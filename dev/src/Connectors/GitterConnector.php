@@ -42,14 +42,15 @@ class GitterConnector extends Connector implements ConnectorInterface
             $level = $this->parseColor($message->getColor());
         }
 
-        $content = $message->getMessage();
 
         // Prefix with 'Forum activity:'
-        $content = '####Flarum activity '."\n\n" . $content;
+        $content = '####Flarum activity '."\n\n";
 
         if($message->getAuthor() !== null){
-            $content = '`@'.$message->getAuthor()->username.'` '. $content;
+            $content .= '@'.$message->getAuthor()->username.' ';
         }
+
+        $content .= $message->getMessage();
 
         $content = $this->parseLinksInMessage($content, $message->getLinksToParse());
 
